@@ -2,18 +2,17 @@ package main
 
 import (
 	"net/http"
+	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/eduardo-js/go-gin-api/src/router"
 )
 
 func main() {
-	r := gin.Default()
-
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "okay",
-		},
-		)
-	})
-	r.Run(":3000")
+	api := &http.Server{
+		Addr:         ":4000",
+		Handler:      router.RouteHandler(),
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+	}
+	api.ListenAndServe()
 }
